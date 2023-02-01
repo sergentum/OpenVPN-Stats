@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 import os, sys, pickle
 
-# STATUS = "/var/log/openvpn-status.log" #location of open vpn status file
-STATUS = "openvpn-status.log"
+STATUS = "/var/log/openvpn-status.log" #location of open vpn status file
+# STATUS = "openvpn-status.log"
 db_folder = "db"  # folder for storing data
 
 
