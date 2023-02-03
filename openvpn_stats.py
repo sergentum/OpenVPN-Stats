@@ -199,9 +199,19 @@ def get_stats():
     return data_days
 
 
+def mod_data(data_days):
+    for day in data_days:
+        for stat in day['stats']:
+            stat['since'] = datetime.datetime.fromtimestamp(stat['since'])
+            stat['recv'] = byte2str(stat['recv'])
+            stat['sent'] = byte2str(stat['sent'])
+    return data_days
+
+
 @app.route("/")
 def home():
     data = get_stats()
+    data = mod_data(data)
     return render_template("stats.html", data=data)
 
 

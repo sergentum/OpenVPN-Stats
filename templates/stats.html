@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Example Jinja Template</title>
+    <title>Openvpn stats</title>
     <style>
       table {
         border-collapse: collapse;
@@ -20,13 +20,13 @@
     <table>
       <tr>
         <th>Date</th>
-        <th>cn</th>
-        <th>real</th>
-        <th>virtual</th>
-        <th>recv</th>
-        <th>sent</th>
-        <th>since</th>
-        <th>sessions</th>
+        <th>Common name</th>
+        <th>Real IP</th>
+        <th>Virtual IP</th>
+        <th>Received</th>
+        <th>Sent</th>
+        <th>Last session started</th>
+        <th>Sessions</th>
       </tr>
       {% for date_data in data %}
         <tr>
