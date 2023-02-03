@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import os, sys, json, logging, datetime, web
 from datetime import date
+
 from flask import Flask, render_template
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask_apscheduler import APScheduler
@@ -45,11 +46,8 @@ def getScriptPath():  # gets script directory
 
 
 def get_n_files(n):
-    # datetime.today().strftime('%Y-%m-%d')
-    # datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
     search_dir = os.path.join(getScriptPath(), daily_dir)
-    os.chdir(search_dir)
-    files = filter(os.path.isfile, os.listdir(search_dir))
+    files = [f for f in os.listdir(search_dir) if os.path.isfile(os.path.join(search_dir, f))]
     files = [os.path.join(search_dir, f) for f in files]  # add path to each file
     files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
     files = files[0:n]
