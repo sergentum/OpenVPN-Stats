@@ -146,11 +146,13 @@ def merge_client_data(current_data, old_data):
 def read_old_data():
     today_filename = get_today_filename()
     if not os.path.isfile(today_filename):
+        logger.warning("File is not found:%s", today_filename)
         return dict()
     else:
         old_data = read_stats_file(today_filename)
         if old_data is not None:
             old_dict = {x['cn']: x for x in old_data}
+            logger.debug("Old data was read:%s", old_dict)
             return old_dict
         else:
             return dict()
@@ -208,4 +210,4 @@ def home():
 if __name__ == '__main__':
     check_dirs_exist()
     schedule.start()
-    app.run()
+    app.run(host="0.0.0.0", port=8075)
