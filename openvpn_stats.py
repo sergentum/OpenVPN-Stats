@@ -18,8 +18,8 @@ logger = logging.getLogger(__name__)
 schedule = APScheduler()
 
 
-# STATUS = "/var/log/openvpn-status.log" #location of open vpn status file
-STATUS = "openvpn-status.log"
+STATUS = "/var/log/openvpn-status.log" #location of open vpn status file
+# STATUS = "openvpn-status.log"
 daily_dir = "daily"
 dirs = [daily_dir]
 
