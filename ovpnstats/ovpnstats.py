@@ -1,13 +1,16 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import os, sys, json, logging, datetime, web
-from datetime import date
+import datetime
+import json
+import logging
+import os
+import signal
+import sys
 
-from flask import Flask, render_template
-from apscheduler.schedulers.background import BackgroundScheduler
-from flask_apscheduler import APScheduler
+import flask
+import flask_apscheduler
 
-app = Flask(__name__)
+app = flask.Flask(__name__)
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -16,13 +19,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-schedule = APScheduler()
+schedule = flask_apscheduler.APScheduler()
 
 
 STATUS = "/var/log/openvpn-status.log" #location of open vpn status file
 # STATUS = "openvpn-status.log"
-daily_dir = "daily"
-dirs = [daily_dir]
+daily_dir = "config/daily"
+config_dir = "config"
+dirs = [config_dir, daily_dir]
 
 
 def byte2str(size):
@@ -56,7 +60,7 @@ def get_n_files(n):
 
 
 def get_today_filename():
-    today = date.today().strftime('%Y-%m-%d')
+    today = datetime.date.today().strftime('%Y-%m-%d')
     today_filename = os.path.join(getScriptPath(), daily_dir, today + ".json")
     return today_filename
 
@@ -212,10 +216,16 @@ def mod_data(data_days):
 def home():
     data = get_stats()
     data = mod_data(data)
-    return render_template("stats.html", data=data)
+    return flask.render_template("stats.html", data=data)
+
+
+@app.route("/e")
+def er():
+    os.kill(os.getpid(), signal.SIGINT)
 
 
 if __name__ == '__main__':
+    logger.info("Application starting, %s", __name__)
     check_dirs_exist()
     schedule.start()
     app.run(host="0.0.0.0", port=8075)

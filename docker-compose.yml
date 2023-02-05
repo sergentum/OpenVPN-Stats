@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: ovpnstats
+    container_name: ovpnstats_server
+    restart: unless-stopped
+    ports:
+      - "8075:8075"
+    volumes:
+#     input file from openvpn server
+      - ./openvpn-status.log:/var/log/openvpn-status.log
+#     config dir gives access to data files
+      - ./config:/ovpnstats/config
